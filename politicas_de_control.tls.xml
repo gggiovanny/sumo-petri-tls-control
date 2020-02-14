@@ -1,0 +1,20 @@
+<additional>
+    <tlLogic id="semaforo_principal" type="static" programID="hora_pico_dia" offset="0">
+        <phase duration="35" state="GrGr"/>
+        <phase duration="6" state="yryr"/>
+        <phase duration="25" state="rGrG"/>
+        <phase duration="6" state="ryry"/>
+    </tlLogic>
+    <tlLogic id="semaforo_principal" type="static" programID="hora_pico_tarde" offset="0">
+        <phase duration="40" state="GrGr"/>
+        <phase duration="6" state="yryr"/>
+        <phase duration="40" state="rGrG"/>
+        <phase duration="6" state="ryry"/>
+    </tlLogic>
+    <tlLogic id="semaforo_principal" type="static" programID="principal" offset="0">
+        <phase duration="40" state="GrGr"/>
+        <phase duration="6" state="yryr"/>
+        <phase duration="40" state="rGrG"/>
+        <phase duration="6" state="ryry"/>
+    </tlLogic>
+</additional>

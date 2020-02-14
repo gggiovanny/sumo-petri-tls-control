@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 02/13/20 23:14:26 by Eclipse SUMO netedit Version 1.3.1
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="C:\Users\GGONZALEZ\Sumo\CIMAT_DEMO\demo.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\GGONZALEZ\Sumo\CIMAT_DEMO\demo.net.xml"/>
+    </output>
+
+    <processing>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <opposites.guess.fix-lengths value="true"/>
+        <lefthand value="false"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.5"/>
+        <rectangular-lane-cut value="false"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="false"/>
+    </pedestrian>
+
+</configuration>
+-->
+
+<net version="1.3" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="-500.00,-500.00,500.00,500.00" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
+
+    <edge id=":cruce_principal_0" function="internal">
+        <lane id=":cruce_principal_0_0" index="0" speed="13.89" length="14.40" shape="-1.60,7.20 -1.60,-7.20"/>
+    </edge>
+    <edge id=":cruce_principal_1" function="internal">
+        <lane id=":cruce_principal_1_0" index="0" speed="13.89" length="14.40" shape="7.20,1.60 -7.20,1.60"/>
+    </edge>
+    <edge id=":cruce_principal_2" function="internal">
+        <lane id=":cruce_principal_2_0" index="0" speed="13.89" length="14.40" shape="1.60,-7.20 1.60,7.20"/>
+    </edge>
+    <edge id=":cruce_principal_3" function="internal">
+        <lane id=":cruce_principal_3_0" index="0" speed="13.89" length="14.40" shape="-7.20,-1.60 7.20,-1.60"/>
+    </edge>
+
+    <edge id="izquierda_a_derecha_fin" from="cruce_principal" to="gneJ4" priority="-1">
+        <lane id="izquierda_a_derecha_fin_0" index="0" speed="13.89" length="492.80" shape="7.20,-1.60 500.00,-1.60"/>
+    </edge>
+    <edge id="abajo_a_arriba_fin" from="cruce_principal" to="gneJ1" priority="-1">
+        <lane id="abajo_a_arriba_fin_0" index="0" speed="13.89" length="492.80" shape="1.60,7.20 1.60,500.00"/>
+    </edge>
+    <edge id="abajo_a_arriba_inicio" from="gneJ5" to="cruce_principal" priority="-1">
+        <lane id="abajo_a_arriba_inicio_0" index="0" speed="13.89" length="492.80" shape="1.60,-500.00 1.60,-7.20"/>
+    </edge>
+    <edge id="arriba_a_abajo_inicio" from="gneJ1" to="cruce_principal" priority="-1">
+        <lane id="arriba_a_abajo_inicio_0" index="0" speed="13.89" length="492.80" shape="-1.60,500.00 -1.60,7.20"/>
+    </edge>
+    <edge id="arriba_a_abajo_fin" from="cruce_principal" to="gneJ5" priority="-1">
+        <lane id="arriba_a_abajo_fin_0" index="0" speed="13.89" length="492.80" shape="-1.60,-7.20 -1.60,-500.00"/>
+    </edge>
+    <edge id="derecha_a_izquierda_fin" from="cruce_principal" to="gneJ3" priority="-1">
+        <lane id="derecha_a_izquierda_fin_0" index="0" speed="13.89" length="492.80" shape="-7.20,1.60 -500.00,1.60"/>
+    </edge>
+    <edge id="derecha_a_izquierda_inicio" from="gneJ4" to="cruce_principal" priority="-1">
+        <lane id="derecha_a_izquierda_inicio_0" index="0" speed="13.89" length="492.80" shape="500.00,1.60 7.20,1.60"/>
+    </edge>
+    <edge id="izquierda_a_derecha_inicio" from="gneJ3" to="cruce_principal" priority="-1">
+        <lane id="izquierda_a_derecha_inicio_0" index="0" speed="13.89" length="492.80" shape="-500.00,-1.60 -7.20,-1.60"/>
+    </edge>
+
+    <tlLogic id="semaforo_principal" type="static" programID="default" offset="0">
+        <phase duration="30" state="GrGr"/>
+        <phase duration="6"  state="yryr"/>
+        <phase duration="30" state="rGrG"/>
+        <phase duration="6"  state="ryry"/>
+    </tlLogic>
+
+    <junction id="cruce_principal" type="traffic_light" x="0.00" y="0.00" incLanes="arriba_a_abajo_inicio_0 derecha_a_izquierda_inicio_0 abajo_a_arriba_inicio_0 izquierda_a_derecha_inicio_0" intLanes=":cruce_principal_0_0 :cruce_principal_1_0 :cruce_principal_2_0 :cruce_principal_3_0" shape="-3.20,7.20 3.20,7.20 3.64,4.98 4.20,4.20 4.98,3.64 5.98,3.31 7.20,3.20 7.20,-3.20 4.98,-3.64 4.20,-4.20 3.64,-4.98 3.31,-5.98 3.20,-7.20 -3.20,-7.20 -3.64,-4.98 -4.20,-4.20 -4.98,-3.64 -5.98,-3.31 -7.20,-3.20 -7.20,3.20 -4.98,3.64 -4.20,4.20 -3.64,4.98 -3.31,5.98">
+        <request index="0" response="0000" foes="1010" cont="0"/>
+        <request index="1" response="0101" foes="0101" cont="0"/>
+        <request index="2" response="0000" foes="1010" cont="0"/>
+        <request index="3" response="0101" foes="0101" cont="0"/>
+    </junction>
+    <junction id="gneJ1" type="dead_end" x="0.00" y="500.00" incLanes="abajo_a_arriba_fin_0" intLanes="" shape="0.00,500.00 3.20,500.00 0.00,500.00"/>
+    <junction id="gneJ3" type="dead_end" x="-500.00" y="0.00" incLanes="derecha_a_izquierda_fin_0" intLanes="" shape="-500.00,0.00 -500.00,3.20 -500.00,0.00"/>
+    <junction id="gneJ4" type="dead_end" x="500.00" y="0.00" incLanes="izquierda_a_derecha_fin_0" intLanes="" shape="500.00,0.00 500.00,-3.20 500.00,0.00"/>
+    <junction id="gneJ5" type="dead_end" x="0.00" y="-500.00" incLanes="arriba_a_abajo_fin_0" intLanes="" shape="0.00,-500.00 -3.20,-500.00 0.00,-500.00"/>
+
+    <connection from="abajo_a_arriba_inicio" to="abajo_a_arriba_fin" fromLane="0" toLane="0" via=":cruce_principal_2_0" tl="semaforo_principal" linkIndex="2" dir="s" state="O"/>
+    <connection from="arriba_a_abajo_inicio" to="arriba_a_abajo_fin" fromLane="0" toLane="0" via=":cruce_principal_0_0" tl="semaforo_principal" linkIndex="0" dir="s" state="O"/>
+    <connection from="derecha_a_izquierda_inicio" to="derecha_a_izquierda_fin" fromLane="0" toLane="0" via=":cruce_principal_1_0" tl="semaforo_principal" linkIndex="1" dir="s" state="o"/>
+    <connection from="izquierda_a_derecha_inicio" to="izquierda_a_derecha_fin" fromLane="0" toLane="0" via=":cruce_principal_3_0" tl="semaforo_principal" linkIndex="3" dir="s" state="o"/>
+
+    <connection from=":cruce_principal_0" to="arriba_a_abajo_fin" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":cruce_principal_1" to="derecha_a_izquierda_fin" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":cruce_principal_2" to="abajo_a_arriba_fin" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":cruce_principal_3" to="izquierda_a_derecha_fin" fromLane="0" toLane="0" dir="s" state="M"/>
+
+</net>
