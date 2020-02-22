@@ -23,9 +23,9 @@ def generar_archivo_vehiculos():
     N = 3600  # numero de time steps (segundos de la simulacion)
     # demanda por segundo desde las diferentes direcciones
     probabilidad_coche_desde_izquierda = 1. / 10
-    probabilidad_ambulancia_desde_izquierda =  1. / 100
+    probabilidad_ambulancia_desde_izquierda =  1. / 30
     probabilidad_coche_desde_abajo = 1. / 10
-    probabilidad_ambulancia_desde_abajo = 1. / 50
+    probabilidad_ambulancia_desde_abajo = 0
     with open(ruta+"vehiculos.rou.xml", "w") as routes:
         print("""<routes>
         <vType id="coche_normal" length="5" color="1,1,0" maxSpeed="50" accel="2.6" decel="4.5" sigma="0.2" vClass="passenger"/>
@@ -74,12 +74,7 @@ def run():
     contador_fase_0 = 0
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
-        if traci.inductionloop.getLastStepVehicleNumber("detector_abajo") > 0:
-            carID = traci.inductionloop.getLastStepVehicleIDs("detector_abajo")[0]
-            carClass = traci.vehicle.getVehicleClass(carID)
-            # print('[time=%s, detector_abajo] id=%s, class=%s' % (step, carID, carClass))
-            if carClass == "emergency":
-                hay_ambulancia_abajo = True
+        hay_ambulancia_izquierda = False
         if traci.inductionloop.getLastStepVehicleNumber("detector_izquierda") > 0:
             carID = traci.inductionloop.getLastStepVehicleIDs("detector_izquierda")[0]
             carClass = traci.vehicle.getVehicleClass(carID)
@@ -98,13 +93,15 @@ def run():
         # si el semaforo esta en verde para la izquierda y en rojo para abajo
         if traci.trafficlight.getPhase("semaforo_principal") == 2:
             contador_fase_2 += 1
-            # if hay_ambulancia_izquierda: # si viene una ambulancia por la izquierda...
-            #     traci.trafficlight.setPhaseDuration("semaforo_principal", 10)
+            if hay_ambulancia_izquierda: # si viene una ambulancia por la izquierda...
+                traci.trafficlight.setPhaseDuration("semaforo_principal", contador_fase_2 + 10) # ... aumentar la duracion del estado en verde
         else:
             if contador_fase_2 != 0:
                 print("Total fase 2: ", contador_fase_2)
                 contador_fase_2 = 0
-
+        if traci.trafficlight.getPhase("semaforo_principal") == 3:
+            if hay_ambulancia_izquierda: # si viene una ambulancia por la izquierda...
+                traci.trafficlight.setPhase("semaforo_principal", 1) # ... cambiar la luz para darle paso
         step+=1
         
     traci.close()
