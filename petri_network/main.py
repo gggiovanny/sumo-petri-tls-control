@@ -75,7 +75,6 @@ if __name__ == "__main__":
     		print(pre[j][i], end=' ')
     	print()
     	
-    	
     # Generando la matriz POS (condiciones que se cumplen luego de una transicion)
     pos = []
     for transition in t:
@@ -92,7 +91,6 @@ if __name__ == "__main__":
     	for j in range(len(pos)):
     		print(pos[j][i], end=' ')
     	print()
-
     
     pointer = p[0]
     for i in range(10):
