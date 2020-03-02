@@ -52,9 +52,46 @@ if __name__ == "__main__":
     p[5].nextTransition = t[4]
     t[4].nextPlaces.append(p[3])
     
-    # print(p[0].getName())
-    # print(p[0].nextTransition.getName())
-    
+    # Generando la matriz PRE (condiciones que tiene que cumplir cada transicion para efectuarse)
+    # Debe quedar con las transiciones en el eje horizontal y los lugares en el eje vertical:
+    #   t0 t1 t2
+    # p0 1  0  0 
+    # p1 0  1  0 
+    # p2 1  0  1 
+    # De momento se genera con los ejes inversos y recorre diferente al imprimirlo en pantalla
+    pre = []
+    for transition in t:
+    	pre_col = []
+    	for place in p:
+    		if transition == place.nextTransition:
+    			pre_col.append("1")
+    		else:
+    			pre_col.append("0")
+    	pre.append(pre_col)
+    	
+    print("PRE MATRIX:")
+    for i in range(len(pre[0])):
+    	for j in range(len(pre)):
+    		print(pre[j][i], end=' ')
+    	print()
+    	
+    	
+    # Generando la matriz POS (condiciones que se cumplen luego de una transicion)
+    pos = []
+    for transition in t:
+    	pos_col = []
+    	for place in p:
+    		if place in transition.nextPlaces:
+    			pos_col.append("1")
+    		else:
+    			pos_col.append("0")
+    	pos.append(pos_col)
+    	
+    print("POS MATRIX:")
+    for i in range(len(pos[0])):
+    	for j in range(len(pos)):
+    		print(pos[j][i], end=' ')
+    	print()
 
     
     pointer = p[0]
@@ -64,13 +101,4 @@ if __name__ == "__main__":
             pointer = pointer.nextTransition
         else:
             pointer = pointer.nextPlaces[-1]
-            
-"""
-TODO: 
-+ Setear estados iniciales
-+ Cada Place puede tener mas de una marca
-+ Generar matrices pre y post automaticamente a partir de la definicion con objetos nodo (es posible?)
-+ Al definir con objetos la red programatically hallar la manera de poner la condicion de que  para que se efectue la transicion se necesiten mas de una marca
-+ Recorrer la red segun las condiciones pre y post
 
-"""
