@@ -1,31 +1,35 @@
-class Transition:
-    def __init__(self, id):
+class Node:
+    def __init__(self, name_initial, id):
         self.id = id
-        self.nextPlaces = []
-    id = 0
-    nextPlaces = []
+        self.nextNodes = []
+        self.name_initial = name_initial
+        if name_initial == 't':
+            self.listExpectedType = Place
+        elif name_initial == 'p':
+            self.listExpectedType = Transition
+        else:
+            raise ValueError('Error!', 'Error!: No se configuro un tipo de nodo') 
     def getName(self):
-        return "t{}".format(self.id)
+        return "{}{}".format(self.name_initial, self.id)
     def printName(self):
         print(self.getName())
     def printNextNames(self):
-        for place in self.nextPlaces:
-            print(place.getName())
-    
-class Place:
-    def __init__(self, id):
-        self.id = id
-        self.nextPlaces = []
-    id = 0
-    nextTransition = None
-    marcado = 0
-    def getName(self):
-        return "p{}".format(self.id)
-    def printName(self):
-        print(self.getName())
-    def printNextNames(self):
-        print(self.nextTransition.getName())
+        for node in self.nextNodes:
+            print(node.getName())
+    def addNext(self, node):
+        if isinstance(node, self.listExpectedType):
+            self.nextNodes.append(node)
+        else:
+            raise ValueError('Error de tipo de datos!: No se puede agregar un {} a una lista que espera {}'.format( type(node), type(self.listExpectedType)) ) 
 
+class Transition(Node):
+    def __init__(self, id):
+        Node.__init__(self, 't', id)
+    
+class Place(Node):
+    def __init__(self, id):
+        Node.__init__(self, 'p', id)
+        self.marks = 0
 
 if __name__ == "__main__":
     # Generando una lista de objetos Places() (Lugares) en una lista llamada 'p'
@@ -38,19 +42,19 @@ if __name__ == "__main__":
     for i in range(5):
         t.append(Transition(i)) # se le pasa i como argumento, que sera la id del Transition()
     
-    p[0].nextTransition = t[0]
-    t[0].nextPlaces.append(p[1])
-    p[1].nextTransition = t[1]
-    t[1].nextPlaces.append(p[2])
-    p[2].nextTransition = t[2]
-    t[2].nextPlaces.append(p[0])
+    p[0].addNext(t[0]) 
+    t[0].addNext(p[1])
+    p[1].addNext(t[1])
+    t[1].addNext(p[2])
+    p[2].addNext(t[2])
+    t[2].addNext(p[0])
     
-    p[3].nextTransition = t[0]
-    t[0].nextPlaces.append(p[4])
-    p[4].nextTransition = t[3]
-    t[3].nextPlaces.append(p[5])
-    p[5].nextTransition = t[4]
-    t[4].nextPlaces.append(p[3])
+    p[3].addNext(t[0])
+    t[0].addNext(p[4])
+    p[4].addNext(t[3])
+    t[3].addNext(p[5])
+    p[5].addNext(t[4])
+    t[4].addNext(p[3])
     
     # Generando la matriz PRE (condiciones que tiene que cumplir cada transicion para efectuarse)
     # Debe quedar con las transiciones en el eje horizontal y los lugares en el eje vertical:
@@ -63,7 +67,7 @@ if __name__ == "__main__":
     for transition in t:
     	pre_col = []
     	for place in p:
-    		if transition == place.nextTransition:
+    		if transition in place.nextNodes:
     			pre_col.append("1")
     		else:
     			pre_col.append("0")
@@ -80,7 +84,7 @@ if __name__ == "__main__":
     for transition in t:
     	pos_col = []
     	for place in p:
-    		if place in transition.nextPlaces:
+    		if place in transition.nextNodes:
     			pos_col.append("1")
     		else:
     			pos_col.append("0")
@@ -95,8 +99,4 @@ if __name__ == "__main__":
     pointer = p[0]
     for i in range(10):
         print(pointer.getName(), '-> ', end='')
-        if isinstance(pointer, Place) :
-            pointer = pointer.nextTransition
-        else:
-            pointer = pointer.nextPlaces[-1]
-
+        pointer = pointer.nextNodes[-1]
