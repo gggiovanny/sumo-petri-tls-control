@@ -26,7 +26,7 @@ class Transition(Node):
     def __init__(self, id):
         Node.__init__(self, 't', id)
         self.preconditions = []
-        self.waitTime = "15"
+        self.waitTime = 15
         self.action = self.printName # default action
         
     def runAction(self):
@@ -57,18 +57,27 @@ class PetriNetwork:
                 if transition in place.nextNodes:
                     transition.preconditions.append(place)
     def nextStep(self):
+        # print(self.time_waited)
         for transition in self.t:
             all_conditions_marked = True
             if self.time_waited == 0: # solo checar las precondiciones si no se esta esperando ya, pues cuando ya se esta esperando quiere decir que ya se cumplieron en un ciclo previo
-                for pre in transition.preconditions:
-                    if pre.marks == 0: #! TODO: hacer que se puedan configurar multiples marcas
+                for place in self.p:
+                    if place in transition.preconditions and place.marks == 0: #! TODO: hacer que se puedan configurar multiples marcas
                         all_conditions_marked = False
             if all_conditions_marked:
                 if self.time_waited == transition.waitTime:
                     transition.runAction()
                     self.time_waited = 0
-                else:
-                    self.time_waited += 1
+                    # quitando las marcas de las precondiciones
+                    for place in self.p:
+                        if place in transition.preconditions:
+                            place.marks = 0
+                    # poniendoselas a los Place() siguientes
+                    for place in self.p:
+                        if place in transition.nextNodes:
+                            place.marks = 0
+        else:
+            self.time_waited += 1
 
     def print(self, firstElements = True):
         pointer = self.p[0]
@@ -149,11 +158,8 @@ if __name__ == "__main__":
     # petri.printPreMatrix()
     # petri.printPosMatrix()
     
-    # for place in petri.p:
-    #     print(place.getName(), place.marks)
-        
-    # for pre in petri.t[0].preconditions:
-    #     pre.printName()
-    
-    for i in range(19):
+    for i in range(90):
         petri.nextStep()
+
+    # for place in petri.p:
+        # print(place.getName(), place.marks)
