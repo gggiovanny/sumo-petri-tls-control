@@ -4,7 +4,8 @@ from __future__ import print_function
 import os
 import sys
 import random
-
+sys.path.append("petri_network/")
+import Petri
 # we need to import python modules from the $SUMO_HOME/tools directory
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -62,9 +63,15 @@ def generar_archivo_vehiculos():
 #     <phase duration="6" state="ryry"/>    # indice 3
 # </tlLogic>
 
+def hacerAlgo():
+    print("haciendo algo...")
+
 def run():
     # define la politica de control a usarse
     traci.trafficlight.setProgram("semaforo_principal", "principal")
+    net = Petri.getDemoNetwork()
+    # for transition in net.transitions:
+    #     transition.action = hacerAlgo
 
     """Ejecuta el bucle de control de TraCI"""
     step = 0
@@ -74,6 +81,7 @@ def run():
     contador_fase_0 = 0
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
+        net.nextStep()
         hay_ambulancia_izquierda = False
         if traci.inductionloop.getLastStepVehicleNumber("detector_izquierda") > 0:
             carID = traci.inductionloop.getLastStepVehicleIDs("detector_izquierda")[0]
