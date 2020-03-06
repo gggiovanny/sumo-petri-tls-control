@@ -4,20 +4,17 @@ from __future__ import print_function
 import os
 import sys
 import random
-sys.path.append("petri_network/")
-import Petri
 # we need to import python modules from the $SUMO_HOME/tools directory
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
     sys.path.append(tools)
 else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
-    
-
 from sumolib import checkBinary  # noqa
-import traci  # noqa
+import traci
+import Petri
 
-ruta = os.path.dirname(os.path.realpath(__file__)) + os.sep
+ruta = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'sumo') + os.sep
 
 def generar_archivo_vehiculos():
     random.seed(42)  # Hace que la prueba sea reproducible
