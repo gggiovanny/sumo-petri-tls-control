@@ -3,7 +3,7 @@ class Node:
         self.id = id
         self.nextNodes = []
         self.name_initial = name_initial
-        if name_initial == 't':
+        if name_initial == 'transition':
             self.listExpectedType = Place
         elif name_initial == 'places':
             self.listExpectedType = Transition
@@ -24,7 +24,7 @@ class Node:
 
 class Transition(Node):
     def __init__(self, id):
-        Node.__init__(self, 't', id)
+        Node.__init__(self, 'transition', id)
         self.preconditions = []
         self.wait_time = 15
         self.time_waited = 0
@@ -155,25 +155,25 @@ def generateTransitions(range_of_ids):
 def getDemoNetwork():
     # Generando una lista de objetos Places() (Lugares) en una lista llamada 'places'
     places = generatePlaces(range(6))
-    # Repitiendo el mismo proceso para generar los objetos tipo Transition() en la lista 't'
-    t = generateTransitions(range(5))
+    # Repitiendo el mismo proceso para generar los objetos tipo Transition() en la lista 'transition'
+    transition = generateTransitions(range(5))
     # Estableciendo las relaciones entre Places y Transitions
-    places[0].addNext(t[0]) 
-    t[0].addNext(places[1])
-    places[1].addNext(t[1])
-    t[1].addNext(places[2])
-    places[2].addNext(t[2])
-    t[2].addNext(places[0])
+    places[0].addNext(transition[0]) 
+    transition[0].addNext(places[1])
+    places[1].addNext(transition[1])
+    transition[1].addNext(places[2])
+    places[2].addNext(transition[2])
+    transition[2].addNext(places[0])
     #
-    places[3].addNext(t[0])
-    t[0].addNext(places[4])
-    places[4].addNext(t[3])
-    t[3].addNext(places[5])
-    places[5].addNext(t[4])
-    t[4].addNext(places[3])
+    places[3].addNext(transition[0])
+    transition[0].addNext(places[4])
+    places[4].addNext(transition[3])
+    transition[3].addNext(places[5])
+    places[5].addNext(transition[4])
+    transition[4].addNext(places[3])
     #
     initial_state = [1,0,0,1,0,0]
-    return Network(places, t, initial_state, 6)
+    return Network(places, transition, initial_state, 6)
 
 if __name__ == "__main__":
     petri = getDemoNetwork()

@@ -1,4 +1,6 @@
 /.vscode
 /.vscode/*
 detector.xml
+# python cached files
 *.pyc
+__pycache__

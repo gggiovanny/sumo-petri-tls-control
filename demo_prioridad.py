@@ -1,22 +1,7 @@
-from __future__ import absolute_import
-from __future__ import print_function
-
-import os
 import sys
 import random
-
-# we need to import python modules from the $SUMO_HOME/tools directory
-if 'SUMO_HOME' in os.environ:
-    tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
-    sys.path.append(tools)
-else:
-    sys.exit("please declare environment variable 'SUMO_HOME'")
-    
-
-from sumolib import checkBinary  # noqa
-import traci  # noqa
-
-ruta = os.path.dirname(os.path.realpath(__file__)) + os.sep
+from config import traci
+from config import sumo_data_path
 
 def generar_archivo_vehiculos():
     random.seed(42)  # Hace que la prueba sea reproducible
@@ -26,7 +11,7 @@ def generar_archivo_vehiculos():
     probabilidad_ambulancia_desde_izquierda =  1. / 30
     probabilidad_coche_desde_abajo = 1. / 10
     probabilidad_ambulancia_desde_abajo = 0
-    with open(ruta+"vehiculos.rou.xml", "w") as routes:
+    with open(sumo_data_path+"vehiculos.rou.xml", "w") as routes:
         print("""<routes>
         <vType id="coche_normal" length="5" color="1,1,0" maxSpeed="50" accel="2.6" decel="4.5" sigma="0.2" vClass="passenger"/>
     <vType id="emergencia" length="5" color="1,0,0" maxSpeed="50" accel="2.6" decel="4.5" sigma="0.2" vClass="emergency"/>
@@ -131,5 +116,5 @@ if __name__ == "__main__":
     # genera el archivo de configuracion que controla las rutas, tipos y flujo de los vehiculos
     generar_archivo_vehiculos()
     # este es el modo normal de usar traci. sumo es iniciado como un subproceso y entonces el script de python se conecta y ejecuta
-    traci.start(['sumo-gui', "-c", ruta+'demo.sumocfg'])
+    traci.start(['sumo-gui', "-c", sumo_data_path+'demo.sumocfg'])
     run()
