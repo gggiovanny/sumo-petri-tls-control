@@ -17,4 +17,16 @@
         <phase duration="40" state="rGrG"/>
         <phase duration="6" state="ryry"/>
     </tlLogic>
+    <tlLogic id="semaforo_principal" type="static" programID="emergencia" offset="0">
+        <phase duration="10" state="GrGr"/>
+        <phase duration="3" state="yryr"/>
+        <phase duration="10" state="rGrG"/>
+        <phase duration="3" state="ryry"/>
+    </tlLogic>
+    <tlLogic id="semaforo_principal" type="static" programID="manual" offset="0">
+        <phase duration="9999" state="GrGr"/>
+        <phase duration="9999" state="yryr"/>
+        <phase duration="9999" state="rGrG"/>
+        <phase duration="9999" state="ryry"/>
+    </tlLogic>
 </additional>

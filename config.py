@@ -19,8 +19,8 @@ def generar_archivo_vehiculos():
     N = 3600  # numero de time steps (segundos de la simulacion)
     # demanda por segundo desde las diferentes direcciones
     probabilidad_coche_desde_izquierda = 1. / 10
-    probabilidad_ambulancia_desde_izquierda =  1. / 30
-    probabilidad_coche_desde_abajo = 1. / 10
+    probabilidad_ambulancia_desde_izquierda =  1. / 100
+    probabilidad_coche_desde_abajo = 1. / 50
     probabilidad_ambulancia_desde_abajo = 0
     with open(sumo_data_path+"vehiculos.rou.xml", "w") as routes:
         print("""<routes>
