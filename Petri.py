@@ -1,3 +1,5 @@
+import numpy as np
+
 class Node:
     def __init__(self, name_initial, id):
         self.id = id
@@ -99,7 +101,7 @@ class Network:
             else:
                 pointer = pointer.nextNodes[-1]
         print()
-    def printPreMatrix(self):
+    def getMatrixPre(self, show=False, log=False):
         # Generando la matriz PRE (condiciones que tiene que cumplir cada transicion para efectuarse)
         # Debe quedar con las transiciones en el eje horizontal y los lugares en el eje vertical:
         #   t0 t1 t2
@@ -112,33 +114,43 @@ class Network:
             pre_col = []
             for place in self.places:
                 if transition in place.nextNodes:
-                    pre_col.append("1")
+                    pre_col.append(1)
                 else:
-                    pre_col.append("0")
+                    pre_col.append(0)
             pre.append(pre_col)
-        print("PRE MATRIX:")
-        for i in range(len(pre[0])):
-            for j in range(len(pre)):
-                print(pre[j][i], end=' ')
-            print()
-    def printPosMatrix(self):
+            
+        pre_np = np.asarray(pre).transpose()
+        if log: np.savetxt("./logs/pre.csv", pre_np, delimiter=',')
+        
+        if show:
+            print("PRE MATRIX:")
+            for i in range(len(pre[0])):
+                for j in range(len(pre)):
+                    print(pre[j][i], end=' ')
+                print()
+    def getMatrixPos(self, show=False, log=False):
         # Generando la matriz POS (condiciones que se cumplen luego de una transicion)
         pos = []
         for transition in self.transitions:
             pos_col = []
             for place in self.places:
                 if place in transition.nextNodes:
-                    pos_col.append("1")
+                    pos_col.append(1)
                 else:
-                    pos_col.append("0")
+                    pos_col.append(0)
             pos.append(pos_col)
             
-        print("POS MATRIX:")
-        for i in range(len(pos[0])):
-            for j in range(len(pos)):
-                print(pos[j][i], end=' ')
-            print()
+        pos_np = np.asarray(pos).transpose()
+        if log: np.savetxt("./logs/pre.csv", pos_np, delimiter=',')
             
+        if show:
+            print("POS MATRIX:")
+            for i in range(len(pos[0])):
+                for j in range(len(pos)):
+                    print(pos[j][i], end=' ')
+                print()
+        return pos_np
+
 #? Regresa una lista de objetos Places() que tienen como ID el rango de numeros pasado como argumento
 def generatePlaces(range_of_ids):
     _p = []
@@ -177,6 +189,8 @@ def getDemoNetwork():
 
 if __name__ == "__main__":
     petri = getDemoNetwork()
+    petri.getMatrixPre(show=True)
+    petri.getMatrixPos(show=True)
     print("Acciones de las transiciones:")
     petri.fastForward(31)
     print()

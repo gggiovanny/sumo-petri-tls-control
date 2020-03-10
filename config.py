@@ -13,6 +13,7 @@ import traci
 
 base_path = os.path.dirname(os.path.realpath(__file__)) + os.sep
 sumo_data_path = os.path.join(base_path, 'data', 'sumo') + os.sep
+logs_path = os.path.join(base_path, "logs") + os.sep
 
 def generar_archivo_vehiculos():
     random.seed(42)  # Hace que la prueba sea reproducible
