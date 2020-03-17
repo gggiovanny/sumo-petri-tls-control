@@ -33,13 +33,13 @@ def run():
         hay_ambulancia = False #? bandera que indica si hay alguna ambulancia en alguno de los detectores
         for detector in detectores:
             if traci.inductionloop.getLastStepVehicleNumber(detector) > 0:
-                carID = traci.inductionloop.getLastStepVehicleIDs(detector)[0]
-                carClass = traci.vehicle.getVehicleClass(carID)
-                if carClass == "emergency":
-                    hay_ambulancia = True
-                    print('**[t={}, {}] carID={}, class={}**'.format(step, detector, carID, carClass))
-                else:
-                    print('[t={}, {}] carID={}, class={}'.format(step, detector, carID, carClass))
+                for carID in traci.inductionloop.getLastStepVehicleIDs(detector):
+                    carClass = traci.vehicle.getVehicleClass(carID)
+                    if carClass == "emergency":
+                        hay_ambulancia = True
+                        print('**[t={}, {}] carID={}, class={}**'.format(step, detector, carID, carClass))
+                    else:
+                        print('[t={}, {}] carID={}, class={}'.format(step, detector, carID, carClass))
         #* Cambiando el programa si hay ambulancia en cualquier detector
         if hay_ambulancia and programa_anterior != programa_emergencia:
             traci.trafficlight.setProgram("semaforo_principal", programa_emergencia)
