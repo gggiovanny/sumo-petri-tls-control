@@ -192,7 +192,7 @@ if __name__ == "__main__":
     petri.getMatrixPre(show=True)
     petri.getMatrixPos(show=True)
     print("Acciones de las transiciones:")
-    petri.fastForward(31)
+    petri.fastForward(60)
     print()
     print("Estado final de la red:")
     petri.print()

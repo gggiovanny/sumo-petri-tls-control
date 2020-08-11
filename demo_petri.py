@@ -2,9 +2,6 @@ from config import traci
 import config
 import petri
 
-def hacerAlgo():
-    print("haciendo algo...")
-
 def generatePetriNet():
     # Generando una lista de objetos Places() (Lugares) en una lista llamada 'places'
     places = petri.generatePlaces(range(4))
@@ -30,18 +27,12 @@ def generatePetriNet():
     transition[2].action = lambda:traci.trafficlight.setRedYellowGreenState("semaforo_principal", "rGrG")
     transition[3].action = lambda:traci.trafficlight.setRedYellowGreenState("semaforo_principal", "ryry")
     
-    # transition[0].action = lambda:traci.trafficlight.setPhase("semaforo_principal", 0)
-    # transition[1].action = lambda:traci.trafficlight.setPhase("semaforo_principal", 1)
-    # transition[2].action = lambda:traci.trafficlight.setPhase("semaforo_principal", 2)
-    # transition[3].action = lambda:traci.trafficlight.setPhase("semaforo_principal", 3)
-    
     initial_state = [1,0,0,0]
     return petri.Network(places, transition, initial_state, 6)
 
 def run(net):
     #? define la politica de control a usarse
     traci.trafficlight.setProgram("semaforo_principal", "manual")
-    
     #* Ejecuta el bucle de control de TraCI
     while traci.simulation.getMinExpectedNumber() > 0:
         estado_anterior = traci.trafficlight.getRedYellowGreenState("semaforo_principal")
