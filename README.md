@@ -14,9 +14,10 @@ En la carpeta `/data/sumo` de encuentran archivos .xml de configuración del sim
 + Para más información, consultar la [documentación oficial de SUMO](http://sumo.sourceforge.net/userdoc/SUMO_User_Documentation.html).
 
 # Instalación y ejecución
-Para ejecutar el módulo `Petri.py` de la creación de redes de petri solo es necesario el [interprete de Python](https://www.python.org/downloads/) y no es necesario (de momento) tener instalado SUMO. Pero para ejecutar `runner.py` o `demo.py` si es necesario lo siguiente:
-1. Instalar SUMO. Las instrucciones para cada sistema operativo se encuentran en su [web](https://sumo.dlr.de/docs/Downloads.php).
-2. [Solo Windows] Tener agregada la ruta de herramientas de SUMO al PATH de Windows. Dicha ruta se agrega de manera automática con el [instalador](https://sumo.dlr.de/releases/1.3.1/sumo-win64-1.3.1.msi) para Windows. En su defecto, se puede agregar la ruta `C:\Program Files (x86)\Eclipse\Sumo\tools\` [manualmente](https://www.java.com/en/download/help/path.xml).
+Para ejecutar el módulo `Petri.py` de la creación de redes de petri solo es necesario el [interprete de Python](https://www.python.org/downloads/) y el paquete Numpy, y no es necesario (de momento) tener instalado SUMO. Pero para ejecutar `runner.py` o `demo.py` si es necesario lo siguiente:
+1. Instalar el intérprete de Python y los paquetes necesarios. Se recomienda instalar el [gestor de entornos y de paguetes Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/#regular-installation) que ya incluye las dependencias básicas utilizadas.
+2. Instalar SUMO. Las instrucciones para cada sistema operativo se encuentran en su [web](https://sumo.dlr.de/docs/Downloads.php).
+3. [Solo Windows] Tener agregada la ruta de herramientas de SUMO al PATH de Windows. Dicha ruta se agrega de manera automática con el [instalador](https://sumo.dlr.de/releases/1.3.1/sumo-win64-1.3.1.msi) para Windows. En su defecto, se puede agregar la ruta `C:\Program Files (x86)\Eclipse\Sumo\tools\` [manualmente](https://www.java.com/en/download/help/path.xml).
 
 Una vez instalado todo, ubicarse con la terminal en la ruta del script y ejecutarlo:
 ```
