@@ -188,12 +188,12 @@ def getDemoNetwork():
     return Network(places, transition, initial_state, 6)
 
 if __name__ == "__main__":
-    petri = getDemoNetwork()
-    petri.getMatrixPre(show=True)
-    petri.getMatrixPos(show=True)
+    Petri = getDemoNetwork()
+    Petri.getMatrixPre(show=True)
+    Petri.getMatrixPos(show=True)
     print("Acciones de las transiciones:")
-    petri.fastForward(60)
+    Petri.fastForward(60)
     print()
     print("Estado final de la red:")
-    petri.print()
+    Petri.print()
     print()

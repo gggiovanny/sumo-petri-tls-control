@@ -41,9 +41,9 @@ Para lograr el comportamiento buscado en los semáforos, primero:
 + Una vez teniendo el modelo, diseñaremos de manera manual estrategias para algunos tipos de demanda: *poco tráfico*, *tráfico medio*, *mucho tráfico*.
 + En el punto anterior se puede notar que las cantidades de tráfico no son numéricas, si no que son cuantificadores relativos que una computadora no comprende tan fácilmente. Por ello implementaremos sistemas de control basados en lógica difusa que permitan que nuestros algoritmo principal sepa si hay "poco", "medio" o "mucho" tráfico.
 + Implementaremos lo anterior para que un semáforo en una intersección cambie a la estrategia correcta (creada por nosotros) según la semanda de tráfico detectada según la lógica difusa (poco, mucho, medio).
-+ Entrenaremos a un algoritmo de machine learning para que según el histórico de tráfico de una intersección encuentre la estrategia óptima cambiando la configuración de la red petri que modela el cambio de luces.
++ Entrenaremos a un algoritmo de machine learning para que según el histórico de tráfico de una intersección encuentre la estrategia óptima cambiando la configuración de la red Petri que modela el cambio de luces.
 + Implementaremos lo anterior también en una sola intersección y probaremos su rendimiento en comparación con la simulación anterior (estática).
-+ Crearemos un sistema para comunicar un semáforo con otro (probablemente también con algo similar a redes de petri).
++ Crearemos un sistema para comunicar un semáforo con otro (probablemente también con algo similar a redes de Petri).
 + Lo implementaremos en una simulación ahora con varias intersecciones y una red de semáforos.
 
 # Herramientas: SUMO
@@ -172,13 +172,13 @@ while traci.simulation.getMinExpectedNumber() > 0:
 traci.close()
 ```
 # Herramientas: Redes de Petri
-Las redes de petri se usarán para modelar el comportamiento de las intersecciones controladas por semáforos, que se comporta como un sistema discreto.
+Las redes de Petri se usarán para modelar el comportamiento de las intersecciones controladas por semáforos, que se comporta como un sistema discreto.
 > Mientras que un sistema continuo es aquel que va cambiando al paso del tiempo de
 > forma constante, un sistema discreto es aquel que cambia su estado en intervalos
 > de tiempo variados y no de forma constante.
 (Medina, Tuoh y Hernández)
 
-La ventajas de usar una red de petri es que estas se pueden representar tanto gráficamente como matemáticamente a través de matrices de estado.
+La ventajas de usar una red de Petri es que estas se pueden representar tanto gráficamente como matemáticamente a través de matrices de estado.
 
 > Las Redes de Petri clásicas se conciben como un grafo dirigido que posee dos
 > tipos de nodos principales: los lugares representados por círculos y las
@@ -200,11 +200,11 @@ Ejemplo de red de forma gráfica
 Ejemplo de la misma red, en matriz
 ![](media/pizarron_matrices.jpg)
 
-Para poder usar las redes de petri en conjunto con el simulador SUMO fue necesario desarrollar una pequeña librería en Python que facilite toda la lógica de control, pues no nos fue posible encontrar ninguna que cumpla con los requisitos que necesitamos.
+Para poder usar las redes de Petri en conjunto con el simulador SUMO fue necesario desarrollar una pequeña librería en Python que facilite toda la lógica de control, pues no nos fue posible encontrar ninguna que cumpla con los requisitos que necesitamos.
 Los requisitos son:
 + Permitir configurar cualquier estructura de red según sea necesario.
 + Poder anexar una acción programática a cada trancisión.
-+ Que se pueda avanzar en la red de petri al mismo tiempo que con la simulación en SUMO.
++ Que se pueda avanzar en la red de Petri al mismo tiempo que con la simulación en SUMO.
 + Definir más de una marca en cada estado.
 
 A continuación se muestra el código
@@ -397,17 +397,17 @@ def getDemoNetwork():
     return Network(places, transition, initial_state, 6)
 
 if __name__ == "__main__":
-    petri = getDemoNetwork()
-    petri.getMatrixPre(show=True)
-    petri.getMatrixPos(show=True)
+    Petri = getDemoNetwork()
+    Petri.getMatrixPre(show=True)
+    Petri.getMatrixPos(show=True)
     print("Acciones de las transiciones:")
-    petri.fastForward(31)
+    Petri.fastForward(31)
     print()
     print("Estado final de la red:")
-    petri.print()
+    Petri.print()
     print()
 ```
-Si la librería es ejecutada directamente, ejecuta su bloque main que contiene una pequeña demo armando la siguiente red de petri:
+Si la librería es ejecutada directamente, ejecuta su bloque main que contiene una pequeña demo armando la siguiente red de Petri:
 ![](media/example%20net.png)
 Y el resultado es el siguiente:
 ```
@@ -433,20 +433,20 @@ Acciones de las transiciones:
 Estado final de la red:
 places0[0] -> transition0[0] -> places1[0] -> transition1[0] -> places2[1] -> transition2[1] ->
 ```
-El código completo y su documentación se puede encontrar en el siguiente enlace: https://github.com/gggiovanny/sumo-petri-tls-control/
+El código completo y su documentación se puede encontrar en el siguiente enlace: https://github.com/gggiovanny/sumo-Petri-tls-control/
 
 ## Implementación
-A continuación se muestra un ejemplo usando la interfaz TraCI y la librería de redes de petri para controlar el estado de un semáforo en SUMO:
+A continuación se muestra un ejemplo usando la interfaz TraCI y la librería de redes de Petri para controlar el estado de un semáforo en SUMO:
 ```python
 from config import traci
 import config
-import petri
+import Petri
 
 def generatePetriNet():
     # Generando una lista de objetos Places() (Lugares) en una lista llamada 'places'
-    places = petri.generatePlaces(range(4))
+    places = Petri.generatePlaces(range(4))
     # Repitiendo el mismo proceso para generar los objetos tipo Transition() en la lista 'transition'
-    transition = petri.generateTransitions(range(4))
+    transition = Petri.generateTransitions(range(4))
     # Estableciendo las relaciones entre Places y Transitions
     places[0].addNext(transition[0]) 
     transition[0].addNext(places[1])
@@ -468,7 +468,7 @@ def generatePetriNet():
     transition[3].action = lambda:traci.trafficlight.setRedYellowGreenState("semaforo_principal", "ryry")
     
     initial_state = [1,0,0,0]
-    return petri.Network(places, transition, initial_state, 6)
+    return Petri.Network(places, transition, initial_state, 6)
 
 def run(net):
     #? define la politica de control a usarse
@@ -488,7 +488,7 @@ def run(net):
 if __name__ == "__main__":
     #? genera el archivo de configuracion que controla las rutas, tipos y flujo de los vehiculos
     config.generar_archivo_vehiculos()
-    #? Generando la red de petri
+    #? Generando la red de Petri
     net = generatePetriNet()
     #? este es el modo normal de usar traci. sumo es iniciado como un subproceso y entonces el script de python se conecta y ejecuta
     traci.start(['sumo-gui', "-c", config.sumo_data_path+'demo.sumocfg'])
@@ -497,7 +497,7 @@ if __name__ == "__main__":
 ```
 Y el resultado es el siguiente:
 ![](media/demo_petri.png)
-Se pueden observar los logs en cada cambio de estado en la red de petri, que controla el estado del semáforo.
+Se pueden observar los logs en cada cambio de estado en la red de Petri, que controla el estado del semáforo.
 
 # Referencias
 Patriksson, M. (1994). The Traffic Assignment Problem: Models and Methods. 
@@ -507,4 +507,4 @@ Trejo Sánchez, Joel A.(2006). Control de tráfico urbano basado en sistemas mul
 Murillo, Luis Diego. Redes de Petri: Modelado e implementación de algoritmos para autómatas programables
 Tecnología en Marcha, Vol. 21, N.° 4, Octubre-Diciembre 2008, pp. 102-125. Recuperado de: https://dialnet.unirioja.es/descarga/articulo/4835618.pdf.
 
-Medina Marín, Joselito & Tuoh Mora, Juan C. S. & Hernández R., Norberto. Aplicación de redes de petri en la modelación de sistemas de eventos discretos. Universidad Autónoma del Estado de Hidalgo. Recuperado de: https://www.uaeh.edu.mx/scige/boletin/icbi/n1/e4.html.
+Medina Marín, Joselito & Tuoh Mora, Juan C. S. & Hernández R., Norberto. Aplicación de redes de Petri en la modelación de sistemas de eventos discretos. Universidad Autónoma del Estado de Hidalgo. Recuperado de: https://www.uaeh.edu.mx/scige/boletin/icbi/n1/e4.html.

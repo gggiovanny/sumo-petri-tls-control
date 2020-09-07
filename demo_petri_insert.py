@@ -1,15 +1,15 @@
 from config import traci
 import config
-import petri
+import Petri
 
 def hacerAlgo():
     print("haciendo algo...")
 
 def generatePetriNet():
     # Generando una lista de objetos Places() (Lugares) en una lista llamada 'places'
-    places = petri.generatePlaces(range(4))
+    places = Petri.generatePlaces(range(4))
     # Repitiendo el mismo proceso para generar los objetos tipo Transition() en la lista 'transition'
-    transition = petri.generateTransitions(range(4))
+    transition = Petri.generateTransitions(range(4))
     # Estableciendo las relaciones entre Places y Transitions
     places[0].addNext(transition[0]) 
     transition[0].addNext(places[1])
@@ -36,7 +36,7 @@ def generatePetriNet():
     transition[3].action = lambda:traci.trafficlight.setPhase("semaforo_principal", 3)
     
     initial_state = [1,0,0,0]
-    return petri.Network(places, transition, initial_state, 6)
+    return Petri.Network(places, transition, initial_state, 6)
 
 def run(net):
     controlar_con_petri = False
@@ -50,7 +50,7 @@ def run(net):
         if(100 < t < 200):
             if programaActual != "manual":
                 traci.trafficlight.setProgram("semaforo_principal", "manual")
-                print("[Cambiado a modo manual con redes de petri]")
+                print("[Cambiado a modo manual con redes de Petri]")
             net.nextStep()
         else:
             if programaActual != "principal":
@@ -67,7 +67,7 @@ def run(net):
 if __name__ == "__main__":
     #? genera el archivo de configuracion que controla las rutas, tipos y flujo de los vehiculos
     config.generar_archivo_vehiculos()
-    #? Generando la red de petri
+    #? Generando la red de Petri
     net = generatePetriNet()
     #? este es el modo normal de usar traci. sumo es iniciado como un subproceso y entonces el script de python se conecta y ejecuta
     traci.start(['sumo-gui', "-c", config.sumo_data_path+'demo.sumocfg'])
